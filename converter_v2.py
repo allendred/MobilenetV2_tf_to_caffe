@@ -28,9 +28,9 @@ if not os.path.exists('caffemodel_fromckpt'):
 
 
 base_name = '_'.join(['mobilenet_v2', str(factor), str(image_scale)]) # ex: 'mobilenet_v2_1.0_224'
-prototxt = 'prototxt_mobilenet_v2/' + base_name + '.prototxt'
-checkpoint = base_name + '/' + base_name + '.ckpt'
-to_caffemodel = 'caffemodel_fromckpt/' + base_name + '.caffemodel'
+prototxt = f'prototxt_mobilenet_v2/{base_name}.prototxt'
+checkpoint = f'{base_name}/{base_name}.ckpt'
+to_caffemodel = f'caffemodel_fromckpt/{base_name}.caffemodel'
 
 print(base_name)
 
@@ -182,8 +182,7 @@ def tf_preprocess(image_file):
 
     transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
     transformer.set_transpose('data', (2, 0, 1))  # (image_scale, image_scale, 3) to (3, image_scale, image_scale)
-    image = transformer.preprocess('data', tf_image[0])
-    return image
+    return transformer.preprocess('data', tf_image[0])
 
 
 def caffe_test_from_ckpt(net, image_file, preprocess_from_caffe=True):
