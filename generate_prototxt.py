@@ -19,7 +19,7 @@ args = parser.parse_args()
 def generator(image_scale, factor, eps=1e-3):
     ### load tf model
     base_name = '_'.join(['mobilenet_v2', str(factor), str(image_scale)])  # ex: 'mobilenet_v2_1.0_224'
-    checkpoint = base_name + '/' + base_name + '.ckpt'
+    checkpoint = f'{base_name}/{base_name}.ckpt'
 
     print('Building tf graph ...')
     tf.reset_default_graph()
@@ -56,7 +56,7 @@ def generator(image_scale, factor, eps=1e-3):
     ### and change "num_output" and "group" in convolution_param
     with open('prototxt_mobilenet_v2/mobilenet_v2_1.0_224.prototxt', 'r') as f:
         lines = f.readlines()
-    with open('prototxt_mobilenet_v2/' + base_name + '.prototxt', 'w') as g:
+    with open(f'prototxt_mobilenet_v2/{base_name}.prototxt', 'w') as g:
         i = 0
         for line in lines:
             # change image scale
@@ -70,7 +70,7 @@ def generator(image_scale, factor, eps=1e-3):
             if 'group:' in line:
                 line = str(channel_list[i-1]).join([line[:line.index(':') + 2], '\n'])
             g.write(line)
-    print('Successfully generate protxt:', base_name+'.prototxt')
+    print('Successfully generate protxt:', f'{base_name}.prototxt')
     return
 
 
