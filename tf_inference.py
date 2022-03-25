@@ -5,7 +5,7 @@ import tensorflow as tf
 from nets.mobilenet import mobilenet_v2
 
 base_name = 'mobilenet_v2_1.0_224'
-checkpoint = 'mobilenet_v2_1.0_224/' + base_name + '.ckpt'
+checkpoint = f'mobilenet_v2_1.0_224/{base_name}.ckpt'
 
 
 tf.reset_default_graph()
